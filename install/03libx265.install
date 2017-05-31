@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "==============================" && \
+echo "=====> libx265 installing..... " && \
+echo "==============================" && \
+DIR=$(mktemp -d) && cd ${DIR} && \
+curl -sL https://download.videolan.org/pub/videolan/x265/x265_${X265_VERSION}.tar.gz  | \
+  tar -zx && \
+cd x265_${X265_VERSION}/build/linux && \
+./multilib.sh && \
+make -C 8bit install && \
+rm -rf ${DIR} 

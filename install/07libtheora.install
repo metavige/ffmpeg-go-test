@@ -1,0 +1,16 @@
+#!/bin/sh
+
+THEORA_SHA256SUM="40952956c47811928d1e7922cda3bc1f427eb75680c3c37249c91e949054916b  libtheora-${THEORA_VERSION}.tar.gz"
+
+echo "==============================" && \
+echo "=====> libtheora installing..... " && \
+echo "==============================" && \
+DIR=$(mktemp -d) && cd ${DIR} && \
+curl -sLO http://downloads.xiph.org/releases/theora/libtheora-${THEORA_VERSION}.tar.gz && \
+echo ${THEORA_SHA256SUM} | sha256sum --check && \
+tar -zx --strip-components=1 -f libtheora-${THEORA_VERSION}.tar.gz && \
+./configure --prefix="${SRC}" --with-ogg="${SRC}" --bindir="${SRC}/bin" \
+--disable-static --datadir="${DIR}" && \
+make && \
+make install && \
+rm -rf ${DIR}

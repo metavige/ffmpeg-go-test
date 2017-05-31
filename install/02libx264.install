@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "==============================" 
+echo "=====> libx264 installing..... "
+echo "=============================="
+
+DIR=$(mktemp -d) && cd ${DIR} 
+curl -sL https://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${X264_VERSION}.tar.bz2 | \
+  tar -jx --strip-components=1
+./configure --prefix="${SRC}" --bindir="${SRC}/bin" --enable-pic --enable-shared --disable-cli 
+make
+make install
+rm -rf ${DIR}

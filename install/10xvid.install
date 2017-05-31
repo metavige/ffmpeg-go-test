@@ -1,0 +1,16 @@
+#!/bin/sh
+
+XVID_SHA256SUM="4e9fd62728885855bc5007fe1be58df42e5e274497591fec37249e1052ae316f  xvidcore-${XVID_VERSION}.tar.gz"
+
+echo "==============================" && \
+echo "=====> xvid installing..... " && \
+echo "==============================" && \
+DIR=$(mktemp -d) && cd ${DIR} && \
+curl -sLO http://downloads.xvid.org/downloads/xvidcore-${XVID_VERSION}.tar.gz && \
+echo ${XVID_SHA256SUM} | sha256sum --check && \
+tar -zx -f xvidcore-${XVID_VERSION}.tar.gz && \
+cd xvidcore/build/generic && \
+./configure --prefix="${SRC}" --bindir="${SRC}/bin" --datadir="${DIR}" --disable-static --enable-shared && \
+make && \
+make install && \
+rm -rf ${DIR}

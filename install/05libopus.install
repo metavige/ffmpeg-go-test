@@ -1,0 +1,16 @@
+#!/bin/sh
+
+OPUS_SHA256SUM="9122b6b380081dd2665189f97bfd777f04f92dc3ab6698eea1dbb27ad59d8692 opus-${OPUS_VERSION}.tar.gz"
+
+echo "==============================" && \
+echo "=====> libopus installing..... " && \
+echo "==============================" && \
+DIR=$(mktemp -d) && cd ${DIR} && \
+curl -sLO http://downloads.xiph.org/releases/opus/opus-${OPUS_VERSION}.tar.gz && \
+echo ${OPUS_SHA256SUM} | sha256sum --check && \
+tar -zx --strip-components=1 -f opus-${OPUS_VERSION}.tar.gz && \
+autoreconf -fiv && \
+./configure --prefix="${SRC}" --disable-static --datadir="${DIR}" && \
+make && \
+make install && \
+rm -rf ${DIR}

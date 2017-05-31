@@ -1,0 +1,50 @@
+#!/bin/sh
+
+FFMPEG_KEY="D67658D8"
+
+echo "==============================" && \
+echo "=====> ffmpeg installing..... " && \
+echo "==============================" && \
+DIR=$(mktemp -d) && cd ${DIR} && \
+gpg --keyserver pool.sks-keyservers.net --recv-keys ${FFMPEG_KEY} && \
+curl -sLO http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+curl -sLO http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz.asc && \
+gpg --batch  --verify ffmpeg-${FFMPEG_VERSION}.tar.gz.asc ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+tar -zx --strip-components=1 -f ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+./configure \
+  --bindir="${SRC}/bin" \
+  --disable-debug \
+  --disable-doc \
+  --disable-ffplay \
+  --disable-static \
+  --enable-avresample \
+  --enable-gpl \
+  --enable-libopencore-amrnb \
+  --enable-libopencore-amrwb \
+  --enable-libfdk_aac \
+  --enable-libmp3lame \
+  --enable-libopus \
+  --enable-libtheora \
+  --enable-libvorbis \
+  --enable-libvpx \
+  --enable-libx264 \
+  --enable-libx265 \
+  --enable-libxvid \
+  --enable-nonfree \
+  --enable-openssl \
+  --enable-postproc \
+  --enable-shared \
+  --enable-small \
+  --enable-version3 \
+  --extra-cflags="-I${SRC}/include" \
+  --extra-ldflags="-L${SRC}/lib" \
+  --extra-libs=-ldl \
+  --prefix="${SRC}" && \
+make && \
+make install && \
+make distclean && \
+hash -r && \
+cd tools && \
+make qt-faststart && \
+cp qt-faststart ${SRC}/bin && \
+rm -rf ${DIR} 

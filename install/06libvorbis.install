@@ -1,0 +1,16 @@
+#!/bin/sh
+
+VORBIS_SHA256SUM="6efbcecdd3e5dfbf090341b485da9d176eb250d893e3eb378c428a2db38301ce  libvorbis-${VORBIS_VERSION}.tar.gz"
+
+echo "==============================" && \
+echo "=====> libvorbis installing..... " && \
+echo "==============================" && \
+DIR=$(mktemp -d) && cd ${DIR} && \
+curl -sLO http://downloads.xiph.org/releases/vorbis/libvorbis-${VORBIS_VERSION}.tar.gz && \
+echo ${VORBIS_SHA256SUM} | sha256sum --check && \
+tar -zx --strip-components=1 -f libvorbis-${VORBIS_VERSION}.tar.gz && \
+./configure --prefix="${SRC}" --with-ogg="${SRC}" --bindir="${SRC}/bin" \
+--disable-static --datadir="${DIR}" && \
+make && \
+make install && \
+rm -rf ${DIR}

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "==============================" && \
+echo "=====> libvpx installing..... " && \
+echo "==============================" && \
+DIR=$(mktemp -d) && cd ${DIR} && \
+curl -sL https://codeload.github.com/webmproject/libvpx/tar.gz/v${VPX_VERSION} | \
+  tar -zx --strip-components=1 && \
+./configure --prefix="${SRC}" --enable-vp8 --enable-vp9 --enable-pic --disable-debug --disable-examples --disable-docs --disable-install-bins --enable-shared && \
+make && \
+make install && \
+rm -rf ${DIR} 

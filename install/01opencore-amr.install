@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "==============================" && \
+echo "=====> opencore-amr installing..... " && \
+echo "==============================" && \
+DIR=$(mktemp -d) && cd ${DIR} && \
+curl -sL https://downloads.sf.net/project/opencore-amr/opencore-amr/opencore-amr-${OPENCOREAMR_VERSION}.tar.gz | \
+  tar -zx --strip-components=1 && \
+./configure --prefix="${SRC}" --bindir="${SRC}/bin" --enable-shared --datadir=${DIR} && \
+make && \
+make install && \
+rm -rf ${DIR}

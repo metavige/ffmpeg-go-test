@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "==============================" && \
+echo "=====> fdk-aac installing..... " && \
+echo "==============================" && \
+DIR=$(mktemp -d) && cd ${DIR} && \
+curl -sL https://github.com/mstorsjo/fdk-aac/archive/v${FDKAAC_VERSION}.tar.gz | \
+  tar -zx --strip-components=1 && \
+autoreconf -fiv && \
+./configure --prefix="${SRC}" --disable-static --datadir="${DIR}" && \
+make && \
+make install && \
+make distclean && \
+rm -rf ${DIR}
